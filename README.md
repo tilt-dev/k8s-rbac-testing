@@ -8,10 +8,22 @@ The primary purpose is to create:
 - RBAC rules that restrict the service account to only read/write to that namespace
 - a kubeconfig for the service account
 
+## Usage:
+
+```
+$ ./create-restricted-namespace.sh [namespace]
+```
+
+## QA
+
 Verified working on
-- Minikube
-- KIND
-- Docker For Desktop (Docker for Mac)
+- [Minikube](https://github.com/kubernetes/minikube)
+- [KIND (Kubernetes IN Docker)](https://github.com/kubernetes-sigs/kind)
+- [Docker For Desktop (Docker for Mac)](https://www.docker.com/products/docker-desktop)
+
+Won't work with:
+- [kubeadm-dind-cluster](https://github.com/kubernetes-sigs/kubeadm-dind-cluster) - Configured to use the insecure API endpoint by default
+- [microk8s](https://microk8s.io/) - RBAC not enabled by default
 
 ## Credits
 
@@ -23,6 +35,6 @@ Thanks to:
 
 ## License
 
-Copyright 2018 Windmill Engineering
+Copyright 2019 Windmill Engineering
 
 Licensed under [the Apache License, Version 2.0](LICENSE)
