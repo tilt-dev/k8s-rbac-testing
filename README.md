@@ -21,10 +21,10 @@ Verified working on
 - [Minikube](https://github.com/kubernetes/minikube)
 - [KIND (Kubernetes IN Docker)](https://github.com/kubernetes-sigs/kind)
 - [Docker For Desktop (Docker for Mac)](https://www.docker.com/products/docker-desktop)
+- [microk8s](https://microk8s.io/) - with Microk8s 1.15+, when you run `microk8s.enable rbac`
 
 Won't work with:
 - [kubeadm-dind-cluster](https://github.com/kubernetes-sigs/kubeadm-dind-cluster) - Configured to use the insecure API endpoint by default
-- [microk8s](https://microk8s.io/) - RBAC not enabled by default
 
 ## Credits
 
