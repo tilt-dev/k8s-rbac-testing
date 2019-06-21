@@ -45,6 +45,7 @@ KUBECFG_FILE=$(mktemp)
 
 # Create the role bindings
 sed "s/\$NAMESPACE/$NAMESPACE/g" roles.yaml | kubectl apply -f -
+sed "s/\$NAMESPACE/$NAMESPACE/g" node-access.yaml | kubectl apply -f -
 
 set +x
 echo "Restricted namespace set up! Hooray!

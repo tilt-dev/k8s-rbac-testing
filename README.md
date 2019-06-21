@@ -6,6 +6,7 @@ The primary purpose is to create:
 - a service account
 - a namespace
 - RBAC rules that restrict the service account to only read/write to that namespace
+- RBAC rules that let the service account read Node information
 - a kubeconfig for the service account
 
 ## Usage:
