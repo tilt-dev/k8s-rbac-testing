@@ -14,7 +14,12 @@ Usage: $BASENAME [namespace] [kubeconfig-path]
 Creates a service account and a kubeconfig that logs into the service account
 with the current context.
 
-Will overwrite the file at kubeconfig-path"
+Will overwrite the file at kubeconfig-path.
+
+If EXEC_CREDENTIAL_SCRIPT is set, will create a new script at this location
+that returns an ExecCredential
+https://godoc.org/k8s.io/client-go/pkg/apis/clientauthentication#ExecCredentialSpec
+and use that for auth."
     exit 1
 fi
 
@@ -35,12 +40,29 @@ TOKEN=$(kubectl get secrets -n $NAMESPACE $SECRET_DATA -o "jsonpath={.data.token
 CERT=$(kubectl get secrets -n $NAMESPACE $SECRET_DATA -o "jsonpath={.data['ca\.crt']}")
 
 # Create a temporary kubeconfig and use it for all future calls.
-kubectl config view --minify > $KUBECFG_FILE
+kubectl config view --minify --raw > $KUBECFG_FILE
 export KUBECONFIG=$KUBECFG_FILE
 
-# Create a user with this cert data and token.
-kubectl config set-credentials $USER --token $TOKEN
-kubectl config set users.$USER.client-key-data $CERT
+set +u
+SCRIPT="$EXEC_CREDENTIAL_SCRIPT"
+set -u
+
+if [ "$SCRIPT" == "" ]; then
+    # Create a user with this token.
+    kubectl config set-credentials $USER --token="$TOKEN"
+else
+    # Create an exec script that returns this token,
+    # and set the user to authenticate with that script
+    ./create-exec-credential-script.sh $TOKEN > $SCRIPT
+    chmod u+x "$SCRIPT"
+    
+    kubectl config set-credentials $USER --exec-command="$SCRIPT" --exec-api-version="client.authentication.k8s.io/v1beta1"
+
+    # NOTE(nick): There's a bug in set-credentials where sometimes it truncates the exec command
+    # filename, so replace it manually.
+    sed -i -e "s!command: .*!command: $SCRIPT!" $KUBECFG_FILE
+fi
+
 kubectl config set-context $CONTEXT --user=$USER --namespace=$NAMESPACE
 
 CLUSTER_NAME=$(kubectl config view --minify -o "jsonpath={.clusters[*].name}")
