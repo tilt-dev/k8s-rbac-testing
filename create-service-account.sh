@@ -32,7 +32,6 @@ sed "s/\$NAMESPACE/$NAMESPACE/g" service-account.yaml | kubectl apply -f -
 
 # Pull the name of the secret out of the service account object,
 # so we can authenticate as that user.
-kubectl get serviceaccount $USER -n $NAMESPACE -o "jsonpath={.secrets[*].name}"
 SECRET_DATA=$(kubectl get serviceaccount $USER -n $NAMESPACE -o "jsonpath={.secrets[*].name}")
 
 # Pull the certificate data and the token out of secrets.

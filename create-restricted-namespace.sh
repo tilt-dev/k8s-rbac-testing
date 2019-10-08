@@ -82,8 +82,8 @@ kubectl delete namespace $NAMESPACE"
 if [ "$EXEC_CREDENTIAL_SCRIPT" != "" ]; then
     # TODO(nick): Add instructions on how to rotate the credentials
     echo "
-An credential script has been created at
-$EXEC_CREDENTIAL_SCRIPT
+A credential script has been created. Rotate the keys with:
+./rotate-exec-credential-script.sh $NAMESPACE $EXEC_CREDENTIAL_SCRIPT
 "
 fi
 
