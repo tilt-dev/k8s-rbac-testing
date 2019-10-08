@@ -15,6 +15,19 @@ The primary purpose is to create:
 $ ./create-restricted-namespace.sh [namespace]
 ```
 
+Creates a kubeconfig with a token for authentication. Instructions on how
+to use the kubeconfig will be printed to stdout.
+
+Real, production auth systems use short-lived tokens that need to be refreshed
+periodically (e.g., aws-iam-authenticator). If you'd like to simulate that flow,
+use the `-e` option to create a fake auth script with rotate-able tokens.
+
+```
+$ ./create-restricted-namespace.sh -e [namespace]
+```
+
+Instructions on how to rotate the token will be printed to stdout.
+
 ## QA
 
 Verified working on
