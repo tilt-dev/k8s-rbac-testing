@@ -84,6 +84,9 @@ if [ "$EXEC_CREDENTIAL_SCRIPT" != "" ]; then
     echo "
 A credential script has been created. Rotate the keys with:
 ./rotate-exec-credential-script.sh $NAMESPACE $EXEC_CREDENTIAL_SCRIPT
+
+Get the access log with:
+cat $EXEC_CREDENTIAL_SCRIPT.log
 "
 fi
 
