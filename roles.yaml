@@ -12,6 +12,10 @@ rules:
   - jobs
   - cronjobs
   verbs: ["*"]
+- apiGroups: ["networking.k8s.io"]
+  resources:
+  - ingresses
+  verbs: ["*"]
 
 ---
 kind: RoleBinding
